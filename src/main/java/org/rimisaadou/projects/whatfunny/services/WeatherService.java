@@ -8,10 +8,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
-import javax.servlet.http.HttpServletRequest;
-import org.rimisaadou.projects.whatfunny.responses.WeatherResponse;
 
-import com.rimisaadou.projects.whatfunny.util.IpAddressInformation;
+import org.rimisaadou.projects.whatfunny.services.models.WeatherResponse;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.rimisaadou.projects.whatfunny.externalservices.FreeGeoIpService;
+import com.rimisaadou.projects.whatfunny.externalservices.models.IpAddressInformation;
 import com.rimisaadou.projects.whatfunny.util.UnmarshallerUtil;
 
 @Path("/weather")
@@ -25,19 +28,24 @@ public class WeatherService {
 
 		String ipAddress = requestContext.getRemoteAddr();
 		
-		IpAddressInformation ob = UnmarshallerUtil.getObject("<Response> "
-				+ "<IP>91.120.252.146</IP> "
-				+ "<CountryCode>HU</CountryCode>"
-				+ "<CountryName>Hungary</CountryName>"
-				+ "<RegionCode>BU</RegionCode>"
-				+ "<RegionName>Budapest</RegionName>"
-				+ "<City>Budapest</City>"
-				+ "<ZipCode>1012</ZipCode>"
-				+ "<TimeZone>Europe/Budapest</TimeZone>"
-				+ "<Latitude>47.5</Latitude>"
-				+ "<Longitude>19.0833</Longitude>"
-				+ "<MetroCode>0</MetroCode>"
-				+ "</Response>", IpAddressInformation.class);
+		//ipAddress = "91.120.252.146";
+		String xmlData = FreeGeoIpService.getIpAddressInformation(ipAddress);
+		
+		IpAddressInformation ob = UnmarshallerUtil.getObject(xmlData, IpAddressInformation.class);
+		
+//		IpAddressInformation ob = UnmarshallerUtil.getObject("<Response> "
+//				+ "<IP>91.120.252.146</IP> "
+//				+ "<CountryCode>HU</CountryCode>"
+//				+ "<CountryName>Hungary</CountryName>"
+//				+ "<RegionCode>BU</RegionCode>"
+//				+ "<RegionName>Budapest</RegionName>"
+//				+ "<City>Budapest</City>"
+//				+ "<ZipCode>1012</ZipCode>"
+//				+ "<TimeZone>Europe/Budapest</TimeZone>"
+//				+ "<Latitude>47.5</Latitude>"
+//				+ "<Longitude>19.0833</Longitude>"
+//				+ "<MetroCode>0</MetroCode>"
+//				+ "</Response>", IpAddressInformation.class);
 
 		return Response.status(200).entity(new WeatherResponse()).build();
 	}

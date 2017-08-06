@@ -1,4 +1,4 @@
-package com.rimisaadou.projects.whatfunny.util;
+package com.rimisaadou.projects.whatfunny.externalservices.models;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

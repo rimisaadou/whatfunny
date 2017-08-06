@@ -1,4 +1,4 @@
-package org.rimisaadou.projects.whatfunny.responses;
+package org.rimisaadou.projects.whatfunny.services.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
